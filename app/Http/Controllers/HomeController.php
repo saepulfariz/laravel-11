@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends Controller
 {
@@ -19,5 +20,27 @@ class HomeController extends Controller
 
         return view('home.welcome', compact('name'));
         // return view('home.welcome')->with('name', $name);
+    }
+
+    public function migrate()
+    {
+        // Call migrate
+        Artisan::call('migrate:refresh', [
+            // '--class' => 'SampleDataSeeder',
+        ]);
+        return "SUCCESS MIGRATE REFRESH";
+    }
+
+    public function seed()
+    {
+
+        // Call seeder
+        Artisan::call('db:seed', [
+            '--class' => 'SampleDataSeeder',
+            '--force' => true // <--- add this line
+        ]);
+
+        // https://owenconti.com/posts/calling-laravel-seeders-from-migrations
+        return "SUCCESS SEED DATA";
     }
 }

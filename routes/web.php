@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home/{name}', [HomeController::class, 'welcome']);
+Route::get('/m/migrate', [HomeController::class, 'migrate']);
+Route::get('/m/seed', [HomeController::class, 'seed']);
 
 //route resource for products
 Route::resource('/products', \App\Http\Controllers\ProductController::class);
