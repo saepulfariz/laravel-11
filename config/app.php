@@ -1,5 +1,30 @@
 <?php
 
+$asset_url = env('ASSET_URL', 'http://localhost');
+if ($asset_url == 'http://localhost') {
+    if (isset($_SERVER['HTTP_HOST'])) {
+        // $explodeFolder = url('');
+        $explodeFolder = explode('/index.php', $_SERVER['SCRIPT_NAME'])[0];
+        $cekPublicFolder = explode('/public', $explodeFolder);
+        $url = ($_SERVER['SERVER_PORT'] != 80) ?  $explodeFolder  : ((count($cekPublicFolder) == 1) ? $explodeFolder . ''  : $cekPublicFolder[0]);
+        $asset_url = ($_SERVER['SERVER_PORT'] != 80) ?  $explodeFolder  : ((count($cekPublicFolder) == 1) ? $explodeFolder . '/public' : $cekPublicFolder[0] . '/public');
+
+        // $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) ?  $folderProject : $folderProject;
+        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) ? 'https://' . $_SERVER['HTTP_HOST'] . $url : 'http://' . $_SERVER['HTTP_HOST'] . $url;
+        $asset_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) ? 'https://' . $_SERVER['HTTP_HOST'] . $asset_url : 'http://' . $_SERVER['HTTP_HOST'] . $asset_url;
+
+        defined('BASE_URL') || define('BASE_URL', $url);
+        defined('ASSET_URL') || define('ASSET_URL', $asset_url);
+
+        $serverme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) ? 'https://' . $_SERVER['HTTP_HOST'] : 'http://' . $_SERVER['HTTP_HOST'];
+        defined('SERVERME') || define('SERVERME', $serverme);
+    } else {
+        defined('BASE_URL') || define('BASE_URL', '');
+        defined('ASSET_URL') || define('ASSET_URL', '');
+        defined('SERVERME') || define('SERVERME', '');
+    }
+}
+
 return [
 
     /*
@@ -52,7 +77,10 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    // 'url' => env('APP_URL', 'http://localhost'),
+    // 'asset_url' => env('ASSET_URL', 'http://localhost'),
+    'url' => env('APP_URL', BASE_URL),
+    'asset_url' => env('ASSET_URL', ASSET_URL),
 
     /*
     |--------------------------------------------------------------------------
