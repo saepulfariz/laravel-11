@@ -24,7 +24,13 @@ class StudentController extends Controller
         // $data = $this->model->all();
         $link = $this->link;
         $title = $this->title;
-        return view($this->view . '.index', compact('data', 'link', 'title'));
+        $data = [
+            'data' => $data,
+            'link' => $link,
+            'title' => $title,
+        ];
+        return view($this->view . '.index', $data);
+        // return view($this->view . '.index', compact('data', 'link', 'title'));
     }
 
     /**
