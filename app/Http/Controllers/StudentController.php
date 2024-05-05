@@ -77,7 +77,11 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = $this->model->findOrFail($id);
+        $genders = $this->model->genders;
+        $link = $this->link;
+        $title = $this->title;
+        return view($this->view . '.edit', compact('data', 'genders', 'link', 'title'));
     }
 
     /**
@@ -85,7 +89,26 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $this->model->findOrFail($id);
+        //validate form
+        $request->validate([
+            'name'         => 'required|min:5',
+            'npm'         => 'required|min:9',
+            'gender'   => 'required|min:1',
+            'address'   => 'required|min:10',
+        ]);
+
+
+        //create product
+        $data->update([
+            'name'         => $request->name,
+            'npm'   => $request->npm,
+            'gender'         => $request->gender,
+            'address'         => $request->address
+        ]);
+
+        //redirect to index
+        return redirect()->route($this->link . '.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
 
     /**
