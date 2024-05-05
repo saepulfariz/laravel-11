@@ -69,7 +69,11 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = $this->model->findOrFail($id);
+        $genders = $this->model->genders;
+        $link = $this->link;
+        $title = $this->title;
+        return view($this->view . '.show', compact('data', 'genders', 'link', 'title'));
     }
 
     /**
