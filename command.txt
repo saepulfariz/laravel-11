@@ -3,3 +3,5 @@ php artisan storage:link
 php artisan make:model Product -m
 php artisan make:controller ProductController
 php artisan route:list
+
+php artisan make:model Student -m
