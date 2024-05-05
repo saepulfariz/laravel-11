@@ -16,5 +16,5 @@ class Student extends Model
         'address',
     ];
 
-    public $gender = ['L', 'P'];
+    public $genders = ['L', 'P'];
 }
