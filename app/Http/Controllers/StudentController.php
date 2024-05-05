@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\Models\Student;
 
 class StudentController extends Controller
 {
@@ -19,7 +20,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $data = $this->model->all();
+        $data = $this->model->orderBy('id', 'DESC')->get();
+        // $data = $this->model->all();
         $link = $this->link;
         $title = $this->title;
         return view($this->view . '.index', compact('data', 'link', 'title'));
@@ -30,7 +32,10 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        $genders = $this->model->genders;
+        $link = $this->link;
+        $title = $this->title;
+        return view($this->view . '.create', compact('genders', 'link', 'title'));
     }
 
     /**
@@ -38,7 +43,25 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validate form
+        $request->validate([
+            'name'         => 'required|min:5',
+            'npm'         => 'required|min:9',
+            'gender'   => 'required|min:1',
+            'address'   => 'required|min:10',
+        ]);
+
+
+        //create product
+        $this->model->create([
+            'name'         => $request->name,
+            'npm'   => $request->npm,
+            'gender'         => $request->gender,
+            'address'         => $request->address
+        ]);
+
+        //redirect to index
+        return redirect()->route($this->link . '.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
