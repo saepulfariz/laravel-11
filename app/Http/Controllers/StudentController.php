@@ -116,6 +116,12 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //get data by ID
+        $data = $this->model->findOrFail($id);
+
+        //delete data
+        $data->delete();
+
+        return redirect()->route($this->link . '.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }
