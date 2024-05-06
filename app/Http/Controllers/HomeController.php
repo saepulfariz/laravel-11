@@ -43,4 +43,10 @@ class HomeController extends Controller
         // https://owenconti.com/posts/calling-laravel-seeders-from-migrations
         return "SUCCESS SEED DATA";
     }
+
+    public function storage()
+    {
+        Artisan::call('storage:link', []);
+        return "SUCCESS STORAGE LINK";
+    }
 }
