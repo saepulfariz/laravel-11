@@ -49,4 +49,16 @@ class HomeController extends Controller
         Artisan::call('storage:link', []);
         return "SUCCESS STORAGE LINK";
     }
+
+    public function session()
+    {
+        // session('key', 'default');
+
+        // set session
+        session(['key' => 'default']);
+
+        // get session
+        $data = session('key');
+        dd($data);
+    }
 }
