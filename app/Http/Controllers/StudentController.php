@@ -122,7 +122,25 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $data = $this->model->findOrFail($id);
+
+        // Subject::create([
+        //     ['name' => 'Drawing'],
+        //     ['name' => 'Social Science'],
+        // ]);
+
+        Subject::create([
+            'name' => 'Drawing'
+        ]);
+
+        Subject::create([
+            'name' => 'Social Science'
+        ]);
+
+        // update data relation
+        $data->subject()->sync([4, 5]);
+
         //validate form
         $request->validate([
             'name'         => 'required|min:5',
