@@ -170,6 +170,9 @@ class StudentController extends Controller
         //get data by ID
         $data = $this->model->findOrFail($id);
 
+        // ketika data master di hapus, relations di hapus juga
+        $data->subject()->detach();
+
         //delete data
         $data->delete();
 
