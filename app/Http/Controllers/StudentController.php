@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Student;
+use \App\Models\Subject;
 
 class StudentController extends Controller
 {
@@ -57,14 +58,36 @@ class StudentController extends Controller
             'address'   => 'required|min:10',
         ]);
 
+        // Subject::create([
+        //     ['name' => 'English'],
+        //     ['name' => 'Mathematics'],
+        //     ['name' => 'Science'],
+        // ]);
+
+        Subject::create([
+            'name' => 'English'
+        ]);
+
+        Subject::create([
+            'name' => 'Mathematics'
+        ]);
+
+        Subject::create([
+            'name' => 'Science'
+        ]);
+
 
         //create product
-        $this->model->create([
+        $student_item = $this->model->create([
             'name'         => $request->name,
             'npm'   => $request->npm,
             'gender'         => $request->gender,
             'address'         => $request->address
         ]);
+
+        // $student_item->subject()->attach([1, 2, 3]);
+        // langsung ambil id stundents yang di create
+        $student_item->subject()->attach([1, 2]);
 
         //redirect to index
         return redirect()->route($this->link . '.index')->with(['success' => 'Data Berhasil Disimpan!']);

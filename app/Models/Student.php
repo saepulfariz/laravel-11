@@ -17,4 +17,11 @@ class Student extends Model
     ];
 
     public $genders = ['L', 'P'];
+
+    protected $table = "students";
+
+    public function subject()
+    {
+        return $this->belongsToMany(Subject::class, 'student_subject');
+    }
 }
