@@ -21,8 +21,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $data = $this->model->orderBy('id', 'DESC')->get();
+        // $data = $this->model->orderBy('id', 'DESC')->get();
         // $data = $this->model->all();
+        $data = $this->model->with('subject')->orderBy('id', 'DESC')->get();
         $link = $this->link;
         $title = $this->title;
         $data = [
