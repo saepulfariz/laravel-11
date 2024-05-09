@@ -17,6 +17,7 @@
                                         <th scope="col">NO</th>
                                         <th scope="col">NAME</th>
                                         <th scope="col">NPM</th>
+                                        <th scope="col">SUBJECT</th>
                                         <th scope="col">GENDER</th>
                                         <th scope="col">ADDRESS</th>
                                         <th scope="col" style="width: 20%">ACTIONS</th>
@@ -29,6 +30,13 @@
                                             <td>{{ $a++ }}</td>
                                             <td>{{ $d->name }}</td>
                                             <td>{{ $d->npm }}</td>
+                                            <td>
+                                                @forelse ($d->subject as $s)
+                                                    {{ $s->name }},
+                                                @empty
+                                                    NO SUBJECT
+                                                @endforelse
+                                            </td>
                                             <td>{{ $d->gender }}</td>
                                             <td>{{ $d->address }}</td>
                                             <td class="text-center">

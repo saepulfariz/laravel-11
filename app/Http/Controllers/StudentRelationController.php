@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Student;
+use \App\Models\Subject;
 
-class StudentController extends Controller
+class StudentRelationController extends Controller
 {
     private $model;
     private $link = 'students';
@@ -20,8 +21,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $data = $this->model->orderBy('id', 'DESC')->get();
+        // $data = $this->model->orderBy('id', 'DESC')->get();
         // $data = $this->model->all();
+        $data = $this->model->with('subject')->orderBy('id', 'DESC')->get();
         $link = $this->link;
         $title = $this->title;
         $data = [
@@ -29,7 +31,7 @@ class StudentController extends Controller
             'link' => $link,
             'title' => $title,
         ];
-        return view($this->view . '.index', $data);
+        return view($this->view . '.index_relation', $data);
         // return view($this->view . '.index', compact('data', 'link', 'title'));
     }
 
@@ -57,14 +59,36 @@ class StudentController extends Controller
             'address'   => 'required|min:10',
         ]);
 
+        // Subject::create([
+        //     ['name' => 'English'],
+        //     ['name' => 'Mathematics'],
+        //     ['name' => 'Science'],
+        // ]);
+
+        Subject::create([
+            'name' => 'English'
+        ]);
+
+        Subject::create([
+            'name' => 'Mathematics'
+        ]);
+
+        Subject::create([
+            'name' => 'Science'
+        ]);
+
 
         //create product
-        $this->model->create([
+        $student_item = $this->model->create([
             'name'         => $request->name,
             'npm'   => $request->npm,
             'gender'         => $request->gender,
             'address'         => $request->address
         ]);
+
+        // $student_item->subject()->attach([1, 2, 3]);
+        // langsung ambil id stundents yang di create
+        $student_item->subject()->attach([1, 2]);
 
         //redirect to index
         return redirect()->route($this->link . '.index')->with(['success' => 'Data Berhasil Disimpan!']);
@@ -99,7 +123,25 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $data = $this->model->findOrFail($id);
+
+        // Subject::create([
+        //     ['name' => 'Drawing'],
+        //     ['name' => 'Social Science'],
+        // ]);
+
+        Subject::create([
+            'name' => 'Drawing'
+        ]);
+
+        Subject::create([
+            'name' => 'Social Science'
+        ]);
+
+        // update data relation
+        $data->subject()->sync([4, 5]);
+
         //validate form
         $request->validate([
             'name'         => 'required|min:5',
@@ -128,6 +170,9 @@ class StudentController extends Controller
     {
         //get data by ID
         $data = $this->model->findOrFail($id);
+
+        // ketika data master di hapus, relations di hapus juga
+        $data->subject()->detach();
 
         //delete data
         $data->delete();

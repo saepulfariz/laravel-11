@@ -17,3 +17,4 @@ Route::get('/m/session', [HomeController::class, 'session']);
 //route resource for products
 Route::resource('/products', \App\Http\Controllers\ProductController::class);
 Route::resource('/students', \App\Http\Controllers\StudentController::class);
+Route::resource('/student_relation', \App\Http\Controllers\StudentRelationController::class);
