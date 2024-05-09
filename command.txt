@@ -6,3 +6,5 @@ php artisan route:list
 
 php artisan make:model Student -m
 php artisan make:controller StudentController --resource
+
+composer require itsgoingd/clockwork
